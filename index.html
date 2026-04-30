@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monojit Mandal — Undergraduate Researcher</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0d0f14;
+      --paper: #f5f3ee;
+      --accent: #1a3a6b;
+      --accent-light: #2a5298;
+      --rule: #ccc8be;
+      --muted: #6b6760;
+      --highlight: #e8c84a;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --mono: 'DM Mono', 'Courier New', monospace;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Noise texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 4rem;
+      background: rgba(245,243,238,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 4rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::after {
+      content: '';
+      position: absolute;
+      right: -60px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,58,107,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-label::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1.05;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 em {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 400px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .hero-cta:hover { background: var(--accent-light); transform: translateY(-2px); }
+
+    .hero-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-card {
+      width: 340px;
+      border: 1px solid var(--rule);
+      background: #fff;
+      padding: 2.5rem;
+      position: relative;
+      box-shadow: 8px 8px 0 var(--rule);
+      animation: floatCard 6s ease-in-out infinite;
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .hero-card-tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .hero-card h2 {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+    }
+
+    .stat { }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* ── Section wrapper ── */
+    section {
+      padding: 6rem 4rem;
+      border-top: 1px solid var(--rule);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .section-num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    h2.section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    /* ── About ── */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+      font-weight: 300;
+    }
+
+    .about-text p strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .about-aside {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .info-block {
+      border-left: 2px solid var(--accent);
+      padding-left: 1.25rem;
+    }
+
+    .info-block .label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .info-block .value {
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+
+    /* ── Skills ── */
+    #skills .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      border: 1px solid var(--rule);
+      padding: 2rem;
+      background: #fff;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .skill-card:hover::before { transform: scaleX(1); }
+    .skill-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.07); }
+
+    .skill-card h3 {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 0.3rem 0.75rem;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      color: var(--ink);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Experience ── */
+    #experience .timeline {
+      max-width: 780px;
+      position: relative;
+    }
+
+    #experience .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.6rem;
+      bottom: 0;
+      width: 1px;
+      background: var(--rule);
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 2.5rem;
+      margin-bottom: 3rem;
+      padding-left: 0;
+      position: relative;
+    }
+
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 0.55rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--paper);
+    }
+
+    .exp-date {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      padding-top: 0.15rem;
+      padding-left: 1.5rem;
+    }
+
+    .exp-content h3 {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 0.25rem;
+    }
+
+    .exp-org {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .exp-content p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* ── Projects ── */
+    #projects .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .project-card {
+      border: 1px solid var(--rule);
+      background: #fff;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: box-shadow 0.25s, transform 0.25s;
+      position: relative;
+    }
+
+    .project-card:first-child {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .project-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+
+    .project-num {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .project-card h3 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+    }
+
+    .project-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 0.1rem;
+      transition: opacity 0.2s;
+    }
+
+    .project-link:hover { opacity: 0.7; }
+
+    /* ── Contact ── */
+    #contact {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    #contact .section-title { color: var(--paper); }
+    #contact .section-num { color: var(--muted); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-left p {
+      color: rgba(245,243,238,0.6);
+      font-size: 1.05rem;
+      font-weight: 300;
+      max-width: 400px;
+      margin-bottom: 2rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--paper);
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
+      padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .contact-item:hover { opacity: 0.75; border-color: rgba(255,255,255,0.3); }
+
+    .contact-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      flex-shrink: 0;
+    }
+
+    .contact-info-label {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(245,243,238,0.4);
+    }
+
+    .contact-info-val {
+      font-size: 0.9rem;
+    }
+
+    /* Contact Form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(245,243,238,0.5);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--paper);
+      padding: 0.85rem 1rem;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      outline: none;
+      resize: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(245,243,238,0.25);
+    }
+
+    .btn-send {
+      background: var(--paper);
+      color: var(--ink);
+      border: none;
+      padding: 1rem 2rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .btn-send:hover { opacity: 0.85; transform: translateY(-2px); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(245,243,238,0.3);
+      text-transform: uppercase;
+    }
+
+    /* ── Animations ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      #hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; }
+      .hero-right { display: none; }
+      section { padding: 4rem 1.5rem; }
+      #about .about-grid,
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      #skills .skills-grid { grid-template-columns: 1fr 1fr; }
+      #projects .projects-grid { grid-template-columns: 1fr; }
+      .project-card:first-child { grid-column: span 1; display: flex; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .exp-item::before { display: none; }
+      #experience .timeline::before { display: none; }
+      footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; }
+    }
+
+    @media (max-width: 540px) {
+      #skills .skills-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">MM</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#achievements">Achievements</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-label">Available for research collaboration</div>
+      <h1>Monojit<br /><em>Mandal</em></h1>
+      <p class="hero-sub">Undergraduate Researcher passionate about advancing knowledge through rigorous inquiry and interdisciplinary thinking.</p>
+      <a href="#contact" class="hero-cta">Get in touch →</a>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hero-card-tag">Researcher Profile</div>
+        <h2>Monojit Mandal</h2>
+        <p>Undergraduate Researcher · Open to opportunities in research, internships, and collaborative projects.</p>
+        <div class="stat-row">
+          <div class="stat">
+            <div class="stat-num">3+</div>
+            <div class="stat-label">Projects</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">2+</div>
+            <div class="stat-label">Years Research</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header fade-in">
+      <span class="section-num">01</span>
+      <h2 class="section-title">About Me</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <p>I am <strong>Monojit Mandal</strong>, an undergraduate student at <strong>IISER Bhopal</strong> with a strong academic interest in Earth and Environmental Sciences, with a primary focus on geology and geochemistry.</p>
+        <p>I am particularly drawn to understanding the processes that govern Earth's interior — including <strong>crust–mantle interactions, mantle plume activity</strong>, and the formation and evolution of Large Igneous Provinces (LIPs). My training in mineralogy, petrology, and physical chemistry has equipped me with a geochemical lens through which I interpret geological systems.</p>
+        <p>I am especially interested in the use of <strong>geochemical proxies and isotopic signatures</strong> to trace magma sources, interpret tectonic environments, and reconstruct Earth's deep-time history. Beyond the subsurface, I connect geological processes with broader environmental systems — including geochemical cycling and lithosphere–surface interactions.</p>
+        <p>I approach problems with <strong>analytical rigour and a quantitative mindset</strong>, and I am actively seeking research and field-based opportunities in geochemistry, petrology, and environmental Earth systems.</p>
+      </div>
+      <div class="about-aside fade-in">
+        <div class="info-block">
+          <div class="label">Institution</div>
+          <div class="value">IISER Bhopal</div>
+        </div>
+        <div class="info-block">
+          <div class="label">Discipline</div>
+          <div class="value">Earth & Environmental Sciences</div>
+        </div>
+        <div class="info-block">
+          <div class="label">Focus Areas</div>
+          <div class="value">Geology · Geochemistry · Petrology</div>
+        </div>
+        <div class="info-block">
+          <div class="label">Status</div>
+          <div class="value">Seeking research & field opportunities</div>
+        </div>
+        <div class="info-block">
+          <div class="label">Location</div>
+          <div class="value">Bhopal, India</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header fade-in">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Skills</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card fade-in">
+        <h3>Field Techniques</h3>
+        <div class="skill-tags">
+          <span class="tag">Geological Mapping</span>
+          <span class="tag">Stratigraphic Logging</span>
+          <span class="tag">GPS & Compass-Clinometer</span>
+          <span class="tag">Rock & Soil Sampling</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <h3>Laboratory Techniques</h3>
+        <div class="skill-tags">
+          <span class="tag">UV-Vis Spectrophotometry</span>
+          <span class="tag">Acid Digestion</span>
+          <span class="tag">Petrographic Microscopy</span>
+          <span class="tag">¹H & ¹³C NMR Spectroscopy</span>
+          <span class="tag">Column Chromatography</span>
+          <span class="tag">TLC Monitoring</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <h3>Geochemical & Analytical</h3>
+        <div class="skill-tags">
+          <span class="tag">Major & Trace Element Analysis</span>
+          <span class="tag">Isotope Interpretation (C, O, Sr)</span>
+          <span class="tag">Mineral Geochemistry</span>
+          <span class="tag">Rock Geochemistry</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <h3>Computational & Data Analysis</h3>
+        <div class="skill-tags">
+          <span class="tag">MATLAB</span>
+          <span class="tag">Python (NumPy, Pandas, Matplotlib)</span>
+          <span class="tag">R</span>
+          <span class="tag">QGIS</span>
+          <span class="tag">ArcGIS</span>
+          <span class="tag">Origin</span>
+          <span class="tag">Grapher</span>
+          <span class="tag">LaTeX</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in" style="grid-column: span 2;">
+        <h3>Scientific Writing</h3>
+        <div class="skill-tags">
+          <span class="tag">Research Proposals</span>
+          <span class="tag">Technical Reports</span>
+          <span class="tag">Literature Reviews</span>
+          <span class="tag">Data Interpretation</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header fade-in">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Experience</h2>
+    </div>
+    <div class="timeline">
+      <div class="exp-item fade-in">
+        <div class="exp-date">Field & Lab</div>
+        <div class="exp-content">
+          <h3>Research & Field Experience</h3>
+          <div class="exp-org">IISER Bhopal</div>
+          <p>Conducted geological fieldwork across sedimentary, igneous, and metamorphic terrains for stratigraphic and petrological studies. Collected, logged, and analysed rock and soil samples for geochemical and petrographic interpretation.</p>
+        </div>
+      </div>
+      <div class="exp-item fade-in">
+        <div class="exp-date">Petrography</div>
+        <div class="exp-content">
+          <h3>Thin Section Analysis</h3>
+          <div class="exp-org">Mineralogy & Petrology Lab</div>
+          <p>Prepared and interpreted thin sections to identify mineral assemblages and textural relationships using petrographic microscopy. Applied findings to reconstruct geological histories of sampled formations.</p>
+        </div>
+      </div>
+      <div class="exp-item fade-in">
+        <div class="exp-date">Geochemistry</div>
+        <div class="exp-content">
+          <h3>Geochemical Data Analysis</h3>
+          <div class="exp-org">Earth Sciences Department</div>
+          <p>Performed major and trace element analysis and data validation for geochemical datasets. Interpreted isotopic signatures (C, O, Sr) to trace magma sources and reconstruct tectonic environments.</p>
+        </div>
+      </div>
+      <div class="exp-item fade-in">
+        <div class="exp-date">Reporting</div>
+        <div class="exp-content">
+          <h3>Field & Laboratory Reports</h3>
+          <div class="exp-org">IISER Bhopal</div>
+          <p>Authored comprehensive field and laboratory reports integrating structural observations, chemical data, and petrographic findings into coherent geoscientific interpretations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header fade-in">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Projects</h2>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card fade-in">
+        <div>
+          <div class="project-num">Featured — 01</div>
+          <h3>Research Project Title</h3>
+          <p>A comprehensive investigation into [your research topic]. This project involved designing the experimental framework, collecting and analyzing datasets, and presenting conclusions through peer-reviewed writing. The work was recognised at [conference / event].</p>
+          <div class="project-tech">
+            <span class="tag">Python</span>
+            <span class="tag">Statistical Analysis</span>
+            <span class="tag">LaTeX</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:1.5rem;">
+          <p style="color:var(--muted);font-size:0.85rem;font-weight:300;">Key outcome: [Describe the impact or what was discovered — e.g., 15% improvement in model accuracy, novel finding in dataset, etc.]</p>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">02</div>
+        <h3>Data Analysis Study</h3>
+        <p>Applied advanced statistical methods to analyse [dataset / phenomenon]. Produced visualisations and a written report summarising key insights.</p>
+        <div class="project-tech">
+          <span class="tag">R</span>
+          <span class="tag">ggplot2</span>
+          <span class="tag">Data Viz</span>
+        </div>
+        <a href="#" class="project-link">View Project →</a>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">03</div>
+        <h3>Collaborative Lab Project</h3>
+        <p>Partnered with a multidisciplinary team to investigate [topic]. Responsibilities included literature synthesis, method design, and co-authoring the final paper.</p>
+        <div class="project-tech">
+          <span class="tag">MATLAB</span>
+          <span class="tag">Experimental Design</span>
+          <span class="tag">Scientific Writing</span>
+        </div>
+        <a href="#" class="project-link">View Project →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <div class="section-header fade-in">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Achievements</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;">
+
+      <div class="skill-card fade-in" style="display:flex;flex-direction:column;gap:0.75rem;">
+        <div style="font-size:2rem;">🥇</div>
+        <h3 style="font-family:var(--serif);font-size:1.1rem;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);">Gold Medalist — Athletics</h3>
+        <p style="font-size:0.85rem;color:var(--muted);font-weight:300;line-height:1.6;">Shot Put, 100 m, and 400 m Track Events.</p>
+      </div>
+
+      <div class="skill-card fade-in" style="display:flex;flex-direction:column;gap:0.75rem;">
+        <div style="font-size:2rem;">🥇</div>
+        <h3 style="font-family:var(--serif);font-size:1.1rem;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);">National Science Olympiad</h3>
+        <p style="font-size:0.85rem;color:var(--muted);font-weight:300;line-height:1.6;">Gold Medalist at the National Science Olympiad.</p>
+      </div>
+
+      <div class="skill-card fade-in" style="display:flex;flex-direction:column;gap:0.75rem;">
+        <div style="font-size:2rem;">🏆</div>
+        <h3 style="font-family:var(--serif);font-size:1.1rem;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);">AIR 300 — RICE, 2018</h3>
+        <p style="font-size:0.85rem;color:var(--muted);font-weight:300;line-height:1.6;">All India Rank 300 at Roy's Institute of Competitive Examination.</p>
+      </div>
+
+      <div class="skill-card fade-in" style="display:flex;flex-direction:column;gap:0.75rem;">
+        <div style="font-size:2rem;">🥈</div>
+        <h3 style="font-family:var(--serif);font-size:1.1rem;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);">Earth Science Explorers Challenge, 2020</h3>
+        <p style="font-size:0.85rem;color:var(--muted);font-weight:300;line-height:1.6;">2nd Prize at the Earth Science Explorers Challenge.</p>
+      </div>
+
+      <div class="skill-card fade-in" style="display:flex;flex-direction:column;gap:0.75rem;grid-column:span 2;">
+        <div style="font-size:2rem;">🏅</div>
+        <h3 style="font-family:var(--serif);font-size:1.1rem;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);">Science Exhibition & Innovation Competition, 2020</h3>
+        <p style="font-size:0.85rem;color:var(--muted);font-weight:300;line-height:1.6;">2nd Prize in the Science Exhibition and 1st Prize in the Innovation Competition.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header fade-in">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Contact</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-left fade-in">
+        <p>Interested in collaborating on research, discussing ideas, or just connecting? I'd love to hear from you.</p>
+        <div class="contact-links">
+          <a href="mailto:monojitmandal572@gmail.com" class="contact-item">
+            <div class="contact-icon">@</div>
+            <div>
+              <div class="contact-info-label">Email</div>
+              <div class="contact-info-val">monojitmandal572@gmail.com</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/monojit-mandal-30264a25a/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B6sKfjeV0Q1qJuKQB%2FPaIWA%3D%3D" target="_blank" class="contact-item">
+            <div class="contact-icon">in</div>
+            <div>
+              <div class="contact-info-label">LinkedIn</div>
+              <div class="contact-info-val">linkedin.com/in/monojit-mandal</div>
+            </div>
+          </a>
+          <a href="https://github.com/Monojit419" target="_blank" class="contact-item">
+            <div class="contact-icon">gh</div>
+            <div>
+              <div class="contact-info-label">GitHub</div>
+              <div class="contact-info-val">github.com/Monojit419</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="contact-form fade-in">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Dr. Jane Smith" />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="jane@university.edu" />
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea rows="5" placeholder="I'd like to discuss a research collaboration..."></textarea>
+        </div>
+        <button class="btn-send">Send Message</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Monojit Mandal</p>
+    <p>Built with care · Hosted on GitHub Pages</p>
+  </footer>
+
+  <script>
+    // Intersection observer for fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Active nav link highlight
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 120) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+      });
+    });
+  </script>
+
+</body>
+</html>
