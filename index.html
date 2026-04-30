@@ -63,6 +63,17 @@
       text-transform: uppercase;
       color: var(--accent);
       text-decoration: none;
+      z-index: 101;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 101;
     }
 
     .nav-links {
@@ -706,7 +717,30 @@
     /* ── Responsive ── */
     @media (max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
-      .nav-links { gap: 1.5rem; }
+      
+      .mobile-menu-btn { display: block; }
+      
+      .nav-links {
+        position: fixed;
+        inset: 0;
+        background: var(--paper);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 100;
+      }
+
+      .nav-links.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .nav-links a { font-size: 1.25rem; }
+
       #hero { grid-template-columns: 1fr; padding: 0; }
       .hero-left { padding: 7rem 1.5rem 3rem; }
       .hero-right { height: 55vw; min-height: 300px; }
@@ -716,7 +750,10 @@
       #skills .skills-grid, .achievements-grid { grid-template-columns: 1fr 1fr; }
       .achievement-span-2 { grid-column: span 2; }
       #projects .projects-grid { grid-template-columns: 1fr; }
-      .project-card:first-child { grid-column: span 1; display: flex; }
+      
+      /* Fixed layout for the featured project on tablet/mobile */
+      .project-card:first-child { grid-column: span 1; display: flex; flex-direction: column; }
+      
       .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
       .exp-item::before { display: none; }
       #experience .timeline::before { display: none; }
@@ -724,10 +761,11 @@
     }
 
     @media (max-width: 540px) {
+      h1 { font-size: clamp(2.5rem, 10vw, 3.5rem); }
       #skills .skills-grid, .achievements-grid { grid-template-columns: 1fr; }
       .achievement-span-2 { grid-column: span 1; }
-      .nav-links { display: none; }
-      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .hero-actions { flex-direction: column; align-items: stretch; width: 100%; }
+      .hero-cta, .hero-cta-ghost { justify-content: center; }
     }
   </style>
 </head>
@@ -736,6 +774,7 @@
   <!-- NAV -->
   <nav>
     <a href="#hero" class="nav-logo">MM</a>
+    <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#skills">Skills</a></li>
@@ -1056,6 +1095,25 @@
       });
       navLinks.forEach(a => {
         a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+      });
+    });
+
+    // Mobile Menu Toggle logic
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinksContainer = document.querySelector('.nav-links');
+
+    menuBtn.addEventListener('click', () => {
+      navLinksContainer.classList.toggle('active');
+      menuBtn.textContent = navLinksContainer.classList.contains('active') ? '✕' : '☰';
+    });
+
+    // Close mobile menu on click
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if(window.innerWidth <= 900) {
+          navLinksContainer.classList.remove('active');
+          menuBtn.textContent = '☰';
+        }
       });
     });
   </script>
