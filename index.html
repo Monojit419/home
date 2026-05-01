@@ -51,29 +51,36 @@
       align-items: center;
       justify-content: space-between;
       padding: 1.25rem 4rem;
-      background: rgba(245,243,238,0.85);
+      background: rgba(26, 58, 107, 0.95); /* Deep blue accent */
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--rule);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
     .nav-logo {
       font-family: var(--mono);
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--paper);
       text-decoration: none;
+      position: relative;
       z-index: 101;
+      transition: color 0.3s ease;
     }
 
     .mobile-menu-btn {
       display: none;
       background: none;
       border: none;
-      color: var(--accent);
+      color: var(--paper);
       font-size: 1.5rem;
       cursor: pointer;
+      position: relative;
       z-index: 101;
+      transition: color 0.3s ease;
     }
 
     .nav-links {
@@ -87,12 +94,16 @@
       font-size: 0.72rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: rgba(245, 243, 238, 0.75); /* Faded cream */
       text-decoration: none;
-      transition: color 0.2s;
+      transition: color 0.3s ease, transform 0.3s ease;
+      display: inline-block;
     }
 
-    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover { 
+      color: var(--highlight); 
+      transform: translateY(-1px);
+    }
 
     /* ── Hero ── */
     #hero {
@@ -465,7 +476,7 @@
       position: relative;
     }
 
-    .project-card:first-child {
+    .project-featured {
       grid-column: span 2;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -723,7 +734,7 @@
       .nav-links {
         position: fixed;
         inset: 0;
-        background: var(--paper);
+        background: var(--accent);
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -739,7 +750,14 @@
         pointer-events: all;
       }
 
-      .nav-links a { font-size: 1.25rem; }
+      .nav-links a { 
+        font-size: 1.25rem; 
+        color: var(--paper);
+      }
+
+      .nav-links a:hover {
+        color: rgba(255, 255, 255, 0.7);
+      }
 
       #hero { grid-template-columns: 1fr; padding: 0; }
       .hero-left { padding: 7rem 1.5rem 3rem; }
@@ -752,7 +770,8 @@
       #projects .projects-grid { grid-template-columns: 1fr; }
       
       /* Fixed layout for the featured project on tablet/mobile */
-      .project-card:first-child { grid-column: span 1; display: flex; flex-direction: column; }
+      .project-featured { grid-column: span 1; display: flex; flex-direction: column; gap: 1.5rem; }
+      .project-card { padding: 1.5rem; }
       
       .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
       .exp-item::before { display: none; }
@@ -762,6 +781,8 @@
 
     @media (max-width: 540px) {
       h1 { font-size: clamp(2.5rem, 10vw, 3.5rem); }
+      section { padding: 4rem 1.25rem; }
+      .project-card { padding: 1.25rem; }
       #skills .skills-grid, .achievements-grid { grid-template-columns: 1fr; }
       .achievement-span-2 { grid-column: span 1; }
       .hero-actions { flex-direction: column; align-items: stretch; width: 100%; }
@@ -955,7 +976,7 @@
       <h2 class="section-title">Projects</h2>
     </div>
     <div class="projects-grid">
-      <div class="project-card fade-in">
+      <div class="project-card project-featured fade-in">
         <div>
           <div class="project-num">Featured — 01</div>
           <h3>Comprehensive Field Analysis</h3>
@@ -969,6 +990,23 @@
         <div style="display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:1.5rem;height:100%;">
           <p style="color:var(--muted);font-size:0.85rem;font-weight:300;">An in-depth geological excursion correlating macroscopic field structures with deep-time basin evolution models.</p>
           <a href="https://monojit419.github.io/field-trip/" target="_blank" rel="noopener noreferrer" class="project-link" style="margin-top:auto;">View Field Trip →</a>
+        </div>
+      </div>
+
+      <div class="project-card project-featured fade-in">
+        <div>
+          <div class="project-num">Featured — 02</div>
+          <h3>IISER Berhampur Summer Internship</h3>
+          <p>A comprehensive report exploring geological and climate dynamics. It investigates how plate tectonics, mantle plumes, and continental flood basalts interact to drive historical mass extinction events.</p>
+          <div class="project-tech">
+            <span class="tag">Plate Tectonics</span>
+            <span class="tag">Mantle Plumes</span>
+            <span class="tag">Paleoclimatology</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:1.5rem;height:100%;">
+          <p style="color:var(--muted);font-size:0.85rem;font-weight:300;">Offering a deep-earth perspective on our planet's evolving biosphere and historical climate shifts.</p>
+          <a href="https://monojit419.github.io/IISER-Berhampur-Internship/" target="_blank" rel="noopener noreferrer" class="project-link" style="margin-top:auto;">Read Report →</a>
         </div>
       </div>
     </div>
@@ -1094,7 +1132,7 @@
         if (window.scrollY >= s.offsetTop - 120) current = s.id;
       });
       navLinks.forEach(a => {
-        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--highlight)' : '';
       });
     });
 
@@ -1103,8 +1141,8 @@
     const navLinksContainer = document.querySelector('.nav-links');
 
     menuBtn.addEventListener('click', () => {
-      navLinksContainer.classList.toggle('active');
-      menuBtn.textContent = navLinksContainer.classList.contains('active') ? '✕' : '☰';
+      const isActive = navLinksContainer.classList.toggle('active');
+      menuBtn.textContent = isActive ? '✕' : '☰';
     });
 
     // Close mobile menu on click
